@@ -7,7 +7,7 @@ context: Provides a quick summary of today's dining options at Harvard dining fa
 
 # Dhall Food Summary
 
-I'll fetch and summarize today's dining hall food options from Harvard Hillel and Harvard dining houses.
+I'll fetch and summarize today's dining hall food options from Harvard dining services using the Codex MCP tool for comprehensive and accurate menu information.
 
 ## Step 1: Get today's date
 
@@ -15,23 +15,15 @@ I'll fetch and summarize today's dining hall food options from Harvard Hillel an
 date +"%A, %B %d, %Y"
 ```
 
-## Step 2: Fetch dining information from both sources
+## Step 2: Fetch dining information using Codex
 
-I'll fetch the current menus from:
-1. Harvard Hillel dining hall
-2. Harvard undergraduate dining houses
+I'll use the Codex MCP tool to fetch and analyze today's menu from Harvard dining services.
 
 <function_calls>
-<invoke name="WebFetch">
-<parameter name="url">https://www.hillel.harvard.edu/week-harvard-hillel-dining</parameter>
-<parameter name="prompt">Extract today's menu items for breakfast, lunch, and dinner. List the specific food items being served today. Focus on the actual menu items, not general information.</parameter>
-</invoke>
-</function_calls>
-
-<function_calls>
-<invoke name="WebFetch">
-<parameter name="url">https://www.dining.harvard.edu/undergraduate-dining/dining-houses</parameter>
-<parameter name="prompt">Find and extract today's specific menu items for Harvard dining halls. Look for links to daily menus or weekly menus and extract what's being served today for breakfast, lunch, and dinner.</parameter>
+<invoke name="Task">
+<parameter name="subagent_type">general-purpose</parameter>
+<parameter name="description">Fetch Harvard dining menu using Codex</parameter>
+<parameter name="prompt">Use the Codex MCP tool to fetch and analyze today's Harvard dining hall menu. Search for current menu information from Harvard dining services (HUDS) and Harvard Hillel. Provide specific menu items for breakfast, lunch, and dinner, including vegetarian, vegan, and halal options. Include dining hall hours if available.</parameter>
 </invoke>
 </function_calls>
 
