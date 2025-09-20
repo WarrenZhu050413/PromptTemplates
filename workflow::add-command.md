@@ -1,1 +1,0 @@
-./commands/workflow::add-command.md
