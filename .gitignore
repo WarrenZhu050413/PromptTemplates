@@ -1,0 +1,23 @@
+# Claude local files
+.claude/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Private or sensitive files
+*.private
+*.secret
+
+
+global::utility::tutoring-report.md
