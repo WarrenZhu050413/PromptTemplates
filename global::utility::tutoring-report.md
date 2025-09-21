@@ -3,15 +3,15 @@
 <input>
 ## Parse Arguments
 Process $ARGUMENTS to extract:
-- Student name (e.g., "Sofia", "Jasmine")
+- Student name (e.g., "Student A", "Student B")
 - Week number or date range
 - Class information (can be in English or Chinese)
 - Any specific details to include
 
 ## Example Inputs
-- `/global::utility::tutoring-report Sofia week3`
-- `/global::utility::tutoring-report Jasmine "Monday 1hr EPQ discussion, Wed 45min thesis review"`
-- `/global::utility::tutoring-report Sofia week3 "两堂课，周一1小时，周三45分钟"`
+- `/global::utility::tutoring-report "Student A" week3`
+- `/global::utility::tutoring-report "Student B" "Monday 1hr EPQ discussion, Wed 45min thesis review"`
+- `/global::utility::tutoring-report "Student A" week3 "两堂课，周一1小时，周三45分钟"`
 
 ## Read Context
 Look for and read:
@@ -36,7 +36,7 @@ Gather information for:
 
 ## Phase 2: Structure Report Content
 Required elements:
-1. Greeting line (曾娜阿姨您好：)
+1. Greeting line ([Recipient]您好：)
 2. Introduction (我跟您讲一下这周与[Student]的情况:)
 3. Class summary (dates and durations)
 4. Total hours calculation
@@ -71,7 +71,7 @@ Required elements:
 Generate a complete Chinese report following this structure:
 
 ```
-曾娜阿姨您好：
+[Recipient]您好：
 
 我跟您讲一下这周与[Student]的情况:
 
@@ -100,7 +100,7 @@ Generate a complete Chinese report following this structure:
 - Maintain the same phrasing patterns as previous reports
 
 ## Example Output:
-"I've created the week 3 report for Sofia at week3_sofia_report.txt. The report includes:
+"I've created the week 3 report for Student A at week3_studentA_report.txt. The report includes:
 - 2 classes totaling 1 hour 45 minutes
 - Detailed descriptions of thesis discussion and outline review
 - Links to Google Drive documents
@@ -123,9 +123,9 @@ Clarify when:
 
 ## How to Ask
 Present options clearly:
-- "I found reports for Sofia and Sophia. Which student is this for?"
+- "I found reports for Student A and Student B. Which student is this for?"
 - "You mentioned two classes but only provided one duration. How long was the Wednesday class?"
-- "Should I create this as week3_sofia_report.txt or use a different filename?"
+- "Should I create this as week3_studentA_report.txt or use a different filename?"
 </clarification>
 
 ## Usage Notes
