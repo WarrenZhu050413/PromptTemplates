@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compact Layout Test - Maximum Information Density</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --chinese-red: #8B0000;
+            --chinese-gold: #FFD700;
+            --jade-green: #00A86B;
+            --ink-black: #2B2B2B;
+            --paper-beige: #F5F5DC;
+            --light-cream: #FAFAF0;
+            --level-1: #000;
+            --level-2: #333;
+            --level-3: #666;
+            --level-4: #999;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--paper-beige) 0%, var(--light-cream) 100%);
+            color: var(--ink-black);
+            font-size: 14px;
+            line-height: 1.2;
+            width: 100vw;
+            overflow-x: auto;
+        }
+        .container { width: 100%; padding: 4px; }
+        
+        /* Hierarchical Typography */
+        h1 { 
+            font-size: 24px; 
+            font-weight: 900;
+            margin: 4px 0; 
+            padding: 6px 4px; 
+            background: linear-gradient(135deg, var(--chinese-red), #CD5C5C); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        h2 { 
+            font-size: 18px; 
+            font-weight: 700;
+            margin: 8px 0 4px 0; 
+            padding: 4px; 
+            border-left: 4px solid var(--chinese-red);
+            background: rgba(139, 0, 0, 0.03);
+            color: var(--level-1);
+        }
+        h3 { 
+            font-size: 14px; 
+            font-weight: 600;
+            margin: 4px 0 2px 8px; 
+            color: var(--level-2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        h4 {
+            font-size: 12px;
+            font-weight: 500;
+            margin: 2px 0 1px 16px;
+            color: var(--level-3);
+        }
+        
+        /* Visual Hierarchy Elements */
+        .primary-section {
+            border: 2px solid var(--chinese-red);
+            background: white;
+            margin: 6px 0;
+            padding: 6px;
+        }
+        .secondary-section {
+            border-left: 3px solid var(--chinese-gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin: 4px 0 4px 8px;
+            padding: 4px;
+        }
+        .tertiary-section {
+            margin-left: 16px;
+            padding-left: 8px;
+            border-left: 1px dashed #ccc;
+        }
+        
+        /* Scannable Grid */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 4px; 
+            margin: 4px 0; 
+        }
+        .card { 
+            background: white; 
+            border: 1px solid rgba(139, 0, 0, 0.2); 
+            border-radius: 2px; 
+            padding: 6px; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .card.priority {
+            border: 2px solid var(--chinese-gold);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), white);
+        }
+        
+        /* Data Tables with Visual Weight */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 4px 0; 
+            font-size: 12px; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 3px 6px; 
+            text-align: left; 
+        }
+        th { 
+            background: var(--chinese-red); 
+            color: white; 
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:nth-child(even) { background: rgba(0,0,0,0.02); }
+        td:first-child { font-weight: 600; color: var(--level-2); }
+        
+        /* Hierarchical Lists */
+        .columns { 
+            column-count: 3; 
+            column-gap: 12px; 
+            margin: 4px 0; 
+        }
+        .metric { 
+            display: inline-block; 
+            background: white; 
+            border: 1px solid var(--chinese-gold); 
+            padding: 2px 6px; 
+            margin: 2px; 
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .metric.important {
+            background: var(--chinese-gold);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .dense-list { 
+            list-style: none; 
+            padding: 0; 
+            margin-left: 8px;
+        }
+        .dense-list li { 
+            padding: 2px 0 2px 12px; 
+            border-left: 2px solid transparent;
+            position: relative;
+        }
+        .dense-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--chinese-red);
+            font-size: 10px;
+        }
+        .dense-list li strong { 
+            color: var(--level-2); 
+            font-weight: 600;
+        }
+        
+        /* Indentation System */
+        .indent-1 { margin-left: 12px; }
+        .indent-2 { margin-left: 24px; }
+        .indent-3 { margin-left: 36px; }
+        
+        /* Visual Separators */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, var(--chinese-red), transparent);
+            margin: 8px 0;
+        }
+        
+        pre { 
+            background: #f4f4f4; 
+            padding: 6px; 
+            overflow-x: auto; 
+            font-size: 11px; 
+            line-height: 1.3; 
+            margin: 4px 0 4px 12px; 
+            border-left: 3px solid var(--jade-green); 
+        }
+        code { 
+            font-family: 'SF Mono', monospace; 
+            font-size: 11px; 
+            background: rgba(139, 0, 0, 0.05); 
+            padding: 1px 3px; 
+        }
+        
+        /* Emphasis Hierarchy */
+        .highlight { background: rgba(255, 215, 0, 0.2); padding: 1px 2px; }
+        .critical { color: var(--chinese-red); font-weight: 700; }
+        .success { color: var(--jade-green); font-weight: 600; }
+        .muted { color: var(--level-4); font-size: 11px; }
+        
+        @media (max-width: 768px) { .columns { column-count: 2; } }
+        @media (max-width: 480px) { .columns { column-count: 1; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Harvard Dining Information Dashboard</h1>
+        
+        <!-- PRIMARY: Critical Information -->
+        <div class="primary-section">
+            <h2>⚡ Critical Status</h2>
+            <div class="grid">
+                <div class="card priority">
+                    <h3>Active Alerts</h3>
+                    <div class="metric important">Peak Time: 12-1PM</div>
+                    <div class="metric important">2 Closing Soon</div>
+                    <div class="metric critical">Annenberg: 85% Full</div>
+                </div>
+                <div class="card">
+                    <h3>System Status</h3>
+                    <div class="metric success">8 Open</div>
+                    <div class="metric">14 Total</div>
+                    <div class="metric muted">Updated: 11:45am</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECONDARY: Today's Meals -->
+        <h2>📍 Today's Menu • September 20, 2025</h2>
+        <div class="secondary-section">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meal</th>
+                        <th>Time</th>
+                        <th>Main Dishes</th>
+                        <th>Vegetarian</th>
+                        <th>Dessert</th>
+                        <th>Special</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Breakfast</td>
+                        <td><span class="success">7:30-10:30</span></td>
+                        <td>Scrambled Eggs, Pork Sausage, Pancakes</td>
+                        <td>Tofu Scramble, Steel Cut Oats</td>
+                        <td>Muffins, Danish</td>
+                        <td><span class="highlight">Omelet Bar</span></td>
+                    </tr>
+                    <tr>
+                        <td>Lunch</td>
+                        <td><span class="critical">11:30-14:00</span></td>
+                        <td>Grilled Chicken, Salmon, Reuben</td>
+                        <td>Black Bean Soup, Quinoa Chili</td>
+                        <td>Cookies, Soft Serve</td>
+                        <td><span class="highlight">Sushi Station</span></td>
+                    </tr>
+                    <tr>
+                        <td>Dinner</td>
+                        <td>17:00-19:30</td>
+                        <td>Chicken Piccatta, Nashville Hot Chicken</td>
+                        <td>Vegan Burger, White Beans</td>
+                        <td>Cake, Ice Cream Bar</td>
+                        <td><span class="highlight">Taco Night</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TERTIARY: Dining Halls by Status -->
+        <h2>🏛️ Dining Hall Status</h2>
+        
+        <div class="indent-1">
+            <h3>🔴 High Capacity (>70%)</h3>
+            <div class="tertiary-section">
+                <div class="columns">
+                    <div>
+                        <h4>Annenberg Hall</h4>
+                        <ul class="dense-list">
+                            <li><strong>Capacity:</strong> <span class="critical">85%</span></li>
+                            <li><strong>Wait:</strong> 3 min</li>
+                            <li><strong>Special:</strong> Fresh Pasta</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Quincy House</h4>
+                        <ul class="dense-list">
+                            <li><strong>Capacity:</strong> <span class="critical">70%</span></li>
+                            <li><strong>Wait:</strong> 2 min</li>
+                            <li><strong>Special:</strong> Asian Fusion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🟡 Normal Capacity (40-70%)</h3>
+            <div class="tertiary-section">
+                <div class="columns">
+                    <div>
+                        <h4>Adams House</h4>
+                        <ul class="dense-list">
+                            <li><strong>Capacity:</strong> 60%</li>
+                            <li><strong>Wait:</strong> None</li>
+                            <li><strong>Special:</strong> BBQ Night</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Mather House</h4>
+                        <ul class="dense-list">
+                            <li><strong>Capacity:</strong> 55%</li>
+                            <li><strong>Wait:</strong> 1 min</li>
+                            <li><strong>Special:</strong> Grill Night</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Leverett House</h4>
+                        <ul class="dense-list">
+                            <li><strong>Status:</strong> <span class="critical">Closing 7PM</span></li>
+                            <li><strong>Capacity:</strong> 45%</li>
+                            <li><strong>Special:</strong> Pizza Bar</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Dunster House</h4>
+                        <ul class="dense-list">
+                            <li><strong>Capacity:</strong> 40%</li>
+                            <li><strong>Wait:</strong> None</li>
+                            <li><strong>Special:</strong> Mediterranean</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- QUATERNARY: Supporting Information -->
+        <h2>📊 Dietary & Nutrition</h2>
+        
+        <div class="indent-1">
+            <h3>Dietary Options Available</h3>
+            <div class="indent-2">
+                <div class="metric">Vegan: 24 items</div>
+                <div class="metric">Halal: 12 items</div>
+                <div class="metric">Kosher: 8 items</div>
+                <div class="metric">Gluten-Free: 18 items</div>
+            </div>
+
+            <h3>Nutrition Quick Reference</h3>
+            <div class="grid indent-2">
+                <table>
+                    <thead>
+                        <tr><th colspan="4">Protein Options</th></tr>
+                    </thead>
+                    <tr><th>Item</th><th>Cal</th><th>Protein</th><th>Carbs</th></tr>
+                    <tr><td>Chicken Breast</td><td>165</td><td class="success">31g</td><td>0g</td></tr>
+                    <tr><td>Salmon</td><td>208</td><td class="success">20g</td><td>0g</td></tr>
+                    <tr><td>Quinoa Bowl</td><td>222</td><td>8g</td><td>39g</td></tr>
+                    <tr><td>Vegan Burger</td><td>250</td><td class="success">20g</td><td>30g</td></tr>
+                </table>
+                <table>
+                    <thead>
+                        <tr><th colspan="3">Allergen Distribution</th></tr>
+                    </thead>
+                    <tr><th>Allergen</th><th>Items</th><th>Coverage</th></tr>
+                    <tr><td>Dairy</td><td class="critical">45</td><td>All halls</td></tr>
+                    <tr><td>Gluten</td><td class="critical">38</td><td>Most halls</td></tr>
+                    <tr><td>Soy</td><td>15</td><td>Select</td></tr>
+                    <tr><td>Nuts</td><td>12</td><td>All halls</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Code Reference -->
+        <h2>🔧 API Reference</h2>
+        <h3>Quick Implementation</h3>
+        <pre><code>// Fetch current dining hall data
+async function getDiningInfo() {
+    const response = await fetch('/api/dining');
+    const data = await response.json();
+    return data.meals.filter(m => m.available);
+}
+
+// Get real-time capacity
+const capacity = await fetch('/api/halls/annenberg/capacity');</code></pre>
+    </div>
+</body>
+</html>

@@ -27,6 +27,9 @@ IMPORTANT: If $ARGUMENTS contains "help", "--help", "-h", or starts with any of 
 
 CRITICAL: For ALL non-help modes, ALWAYS read the target file BEFORE providing any response or analysis. This is non-negotiable - the file must be read first to provide proper context.
 
+## Mode Aliases
+- `SPEC` is an alias for `SPECIFICATIONS` - both work identically
+
 ## Pipe Detection
 Check if $ARGUMENTS contains `|` or `PIPE` operator:
 - If found, split into two mode commands
@@ -43,7 +46,7 @@ Check if $ARGUMENTS contains `|` or `PIPE` operator:
    - `FILL` → Process TODO tags (PERMANENT)
    - `FACT-CHECK` → Verify factual claims (PERMANENT)
    - `RESEARCH` → Focused topic research (PERMANENT)
-   - `SPECIFICATIONS` → Software project specification development (PERMANENT)
+   - `SPECIFICATIONS` or `SPEC` → Software project specification development (PERMANENT)
    - `TRACK` → Set the file to track (saves to .writing/file.txt)
    - `EXIT` → Leave the current writing mode
    - `--help` or `help` → Show complete help menu (output entire <help_system> section)
@@ -60,6 +63,7 @@ Examples:
 - `/writing APPLY -y` → Enter permanent apply mode without wrapper tags
 - `/writing QUESTION about authenticity` → Enter permanent questioning mode
 - `/writing SPECIFICATIONS` → Enter permanent specification writing mode
+- `/writing SPEC` → Enter specification mode (alias for SPECIFICATIONS)
 - `/writing TRACK myfile.md` → Set tracking to myfile.md
 - `/writing RESEARCH topic | THINK` → Research then feed insights to thought partnership
 - `/writing QUESTION | EDIT` → Questions inform editing suggestions
@@ -504,15 +508,15 @@ When user requests help (via "help", "--help", "-h" or any variation), output th
 📚 Writing Command - Your Thought Development Partner
 
 MODES:
-  THINK      Collaborative dialogue, no editing
-  EDIT       Inline suggestions preserving voice  
-  APPLY      Add thought prompts and skeletons
-  QUESTION   Surface ideas through inquiry
-  FORMAT     Reorganize without adding
+  THINK          Collaborative dialogue, no editing
+  EDIT           Inline suggestions preserving voice  
+  APPLY          Add thought prompts and skeletons
+  QUESTION       Surface ideas through inquiry
+  FORMAT         Reorganize without adding
   FILL           Process TODO tags
   FACT-CHECK     Verify claims and quotes
   RESEARCH       Investigate specific topics
-  SPECIFICATIONS Clarify project intent through prototypes
+  SPECIFICATIONS Clarify project intent through prototypes (alias: SPEC)
   TRACK          Set which file to track
 
 USAGE:
@@ -533,6 +537,7 @@ QUICK START:
   /writing EDIT               Enter permanent editing mode
   /writing APPLY              Enter permanent prompt-adding mode
   /writing SPECIFICATIONS     Enter permanent specification mode
+  /writing SPEC              Same as SPECIFICATIONS (alias)
   /writing RESEARCH | THINK   Research then explore findings
   EXIT                        Leave current writing mode
   /writing TRACK file.md      Set tracking file
@@ -799,6 +804,7 @@ PURPOSE:
 
 USAGE:
   /writing SPECIFICATIONS                 Clarify project intent
+  /writing SPEC                           Same as SPECIFICATIONS (alias)
   /writing SPECIFICATIONS AS MINIMAL      Bare minimum spec
   /writing SPECIFICATIONS AS CONCRETE     Example-driven spec
   /writing SPECIFICATIONS AS TECHNICAL    Include implementation hints

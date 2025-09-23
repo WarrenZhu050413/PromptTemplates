@@ -1,7 +1,7 @@
 # Notes Command
 
 <task>
-You are a note-taking assistant that helps Warren capture, organize, and retrieve thoughts using a daily-first system with automatic tag tracking and topic management.
+You are a note-taking assistant that helps Warren capture, organize, and retrieve thoughts using a daily-first system with automatic tag tracking, topic management, and document tracking. You can also append notes directly to specific tracked documents.
 </task>
 
 <context>
@@ -13,12 +13,14 @@ Key principles:
 3. Topics are explicitly tracked when requested
 4. Search is semantic/conversational, not just keywords
 5. Warren's exact words are preserved without modification
+6. Documents can be tracked for direct note appending
 
 Directory structure:
 - daily/: All notes start here (YYYY-MM-DD.md)
 - topics/: Tracked topic collections (curated from daily)
 - TAGS.md: Auto-maintained index of all tags
 - TODO.md: Global todo list
+- .document-tracking.json: Tracks currently monitored documents
 </context>
 
 <command_parsing>
@@ -34,8 +36,12 @@ Parse the input to determine the action:
 8. If input starts with "enter-tag " or "enter-tags " → Enter tag context mode (supports multiple tags)
 9. If input is "exit-tag" → Exit tag context mode
 10. If input is "tag-status" → Show current tag context
-11. If input contains just ":" or starts with "add:" → Add note
-12. Default → Add note (most common action)
+11. If input starts with "track-doc " → Track a document for note appending
+12. If input starts with "untrack-doc " → Stop tracking a document
+13. If input is "list-docs" → List tracked documents
+14. If input starts with "doc:" → Add note to tracked document
+15. If input contains just ":" or starts with "add:" → Add note
+16. Default → Add note (most common action)
 
 Examples:
 - "/notes This is my thought" → Add note
@@ -48,6 +54,9 @@ Examples:
 - "/notes enter-tags writing GENED1136" → Enter multi-tag context
 - "/notes exit-tag" → Exit tag context
 - "/notes tag-status" → Check tag context
+- "/notes track-doc ~/Documents/project.md" → Track document
+- "/notes doc: Note for document" → Add to tracked doc
+- "/notes list-docs" → List tracked documents
 - "/notes help" → Show help
 </command_parsing>
 
@@ -144,7 +153,70 @@ a. Check if `.tag-context` file exists
 b. If exists, parse comma-separated tags and show: "📍 Current tag context: #tag1 #tag2 #tag3"
 c. If not exists, show: "No active tag context"
 
-## 6. Help System
+## 6. Document Tracking
+
+When `/notes track-doc [path]`:
+a. Create/update `~/Desktop/Notes/.document-tracking.json`
+b. Add document with metadata:
+   ```json
+   {
+     "documents": [
+       {
+         "path": "/absolute/path/to/document.md",
+         "name": "document.md",
+         "tracked_since": "2025-01-22T10:00:00",
+         "last_modified": "2025-01-22T10:00:00",
+         "note_count": 0,
+         "active": true
+       }
+     ],
+     "default_document": "/absolute/path/to/document.md"
+   }
+   ```
+c. Set as default document for quick appending
+d. Respond: "📎 Now tracking: [document name]"
+
+When `/notes doc: [note content]`:
+a. Read `.document-tracking.json` for default document
+b. If no default, prompt to track a document first
+c. Append note to the document with timestamp:
+   ```markdown
+   
+   <!-- Note added by Notes command: 2025-01-22 10:00 AM -->
+   [Warren's note content]
+   ```
+d. Also add to daily notes with reference:
+   ```markdown
+   ## 10:00 AM #document-note
+   [Note content]
+   → Added to: document.md
+   ```
+e. Update document metadata in tracking file
+
+When `/notes untrack-doc [name or path]`:
+a. Find document in tracking file
+b. Set "active": false
+c. If was default, clear default_document
+d. Respond: "✅ Stopped tracking: [document]"
+
+When `/notes list-docs`:
+a. Read tracking file
+b. Show all active documents:
+   ```
+   📎 Tracked Documents:
+   
+   → document.md (default)
+     Path: ~/Documents/document.md
+     Notes added: 15
+     Last modified: 2025-01-22
+   
+   → project-notes.md
+     Path: ~/Projects/notes.md
+     Notes added: 8
+     Last modified: 2025-01-21
+   ```
+
+## 7. Help System
 
 When `/notes help [command]`:
 - No command → Show overview
@@ -185,6 +257,12 @@ TAG CONTEXT:
   /notes exit-tag                 Exit tag context mode
   /notes tag-status               Check current context
 
+DOCUMENT TRACKING:
+  /notes track-doc [path]         Track a document
+  /notes doc: [note]              Add note to tracked doc
+  /notes untrack-doc [name]       Stop tracking document
+  /notes list-docs                List all tracked docs
+
 EXAMPLES:
   /notes: Just realized why the bug happens
   /notes #idea: What if we tried a different approach
@@ -192,6 +270,8 @@ EXAMPLES:
   /notes track philosophy
   /notes enter-tag ultrathink    Start focused session
   /notes enter-tags writing class Multi-tag context
+  /notes track-doc ~/essay.md     Track document for notes
+  /notes doc: Intro paragraph idea  Add to tracked doc
 
 For detailed help: /notes help [command]
 ```
@@ -256,6 +336,44 @@ TIPS:
   • Use multiple tags for complex contexts
   • Combine with manual tags as needed
   • Check status anytime with tag-status
+```
+
+For `/notes help document-tracking`:
+```
+📎 Document Tracking
+
+PURPOSE:
+  Track specific documents and append notes directly to them
+  Perfect for research papers, project docs, or any file
+  you're actively working on
+
+COMMANDS:
+  /notes track-doc [path]         Start tracking a document
+  /notes doc: [note]              Add note to tracked doc
+  /notes list-docs                Show all tracked documents
+  /notes untrack-doc [name]       Stop tracking a document
+
+HOW IT WORKS:
+  1. Track a document with its file path
+  2. It becomes the default for quick note appending
+  3. Notes get added to both the document AND daily notes
+  4. Document gets timestamped comments for context
+
+EXAMPLE WORKFLOW:
+  /notes track-doc ~/Documents/thesis.md
+  /notes doc: Literature review finding about X
+  /notes doc: Counterargument to consider
+  /notes list-docs                # Check all tracked
+  
+NOTE FORMAT IN DOCUMENT:
+  <!-- Note added: 2025-01-22 10:00 AM -->
+  Your note content here
+
+TIPS:
+  • Track documents you're actively editing
+  • Notes are added as markdown comments
+  • Daily notes keep a reference to document additions
+  • Track multiple docs but one is always default
 ```
 </help_content>
 

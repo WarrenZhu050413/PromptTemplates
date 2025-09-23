@@ -559,4 +559,9 @@ After gathering all information:
    - Verify naming follows convention
    - Refine based on usage
    - Add to command documentation
+
+6. **Sync with Codex prompts**:
+   - From `~/.claude/commands`, stage and commit the new command, then run `git -C ~/.claude/commands push` to publish it.
+   - Update the Codex prompts clone with `git -C ~/.codex/prompts pull --ff-only`.
+   - Resolve any conflicts and confirm the command appears under `~/.codex/prompts`.
 </final_output>

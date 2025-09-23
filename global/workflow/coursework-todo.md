@@ -19,11 +19,13 @@ This command integrates all academic platforms to create a comprehensive, priori
 - 🟢 UPCOMING: Due within a week
 - 🔵 HORIZON: Due beyond a week
 
-**IMPORTANT: Tool Availability**
+**IMPORTANT: Canvas MCP Usage Notes**
 This command uses MCP (Model Context Protocol) tools which must be properly configured:
 - Canvas LMS MCP server must be running and authenticated
 - Gmail MCP server must be running and authenticated  
-- If a tool fails, the command will try alternative approaches
+- **CRITICAL**: `canvas_list_courses` often fails due to response size limits (>25000 tokens)
+- **USE INSTEAD**: `canvas_get_dashboard_cards` - returns course list in compact format
+- Always start with dashboard cards to get course IDs, then query individual courses
 - Check available tools with ListMcpResourcesTool first
 </context>
 
@@ -49,10 +51,17 @@ Use tool: ListMcpResourcesTool
 - Check for canvas-lms server availability
 - Check for gmail server availability
 
-# Get list of courses
-Use tool: mcp__canvas-lms__canvas_list_courses
-- include_ended: false
+# Get list of courses (UPDATED METHOD)
+# IMPORTANT: canvas_list_courses often exceeds token limits
+# Use dashboard cards instead - it's more reliable
+Use tool: mcp__canvas-lms__canvas_get_dashboard_cards
+- Returns compact course list with IDs
+- Extract course IDs from the 'id' field
 - Store course IDs for subsequent queries
+
+# Alternative if dashboard fails:
+Use tool: mcp__canvas-lms__canvas_get_dashboard
+- Provides overview of user's current courses
 ```
 ## Step 1: Gather All Academic Obligations
 
@@ -62,8 +71,9 @@ Use tool: mcp__canvas-lms__canvas_list_courses
 
 # Option 1: Try direct assignment listing
 Use tool: mcp__canvas-lms__canvas_list_assignments
-- For each course_id from mcp__canvas-lms__canvas_list_courses
+- For each course_id from canvas_get_dashboard_cards results
 - include_submissions: true
+- Process course IDs one at a time to avoid token limits
 
 # Option 2: If assignments tool fails, use resource reading
 Use tool: ReadMcpResourceTool
@@ -292,13 +302,16 @@ Before outputting:
 </examples>
 
 <mcp_tools_used>
-# Primary Canvas Tools:
-- mcp__canvas-lms__canvas_list_courses
-- mcp__canvas-lms__canvas_list_assignments  
+# Primary Canvas Tools (UPDATED RECOMMENDATIONS):
+- mcp__canvas-lms__canvas_get_dashboard_cards (✅ USE THIS for course list)
+- mcp__canvas-lms__canvas_get_dashboard (✅ Alternative for overview)
+- mcp__canvas-lms__canvas_list_courses (⚠️ Often fails - token limit issues)
+- mcp__canvas-lms__canvas_list_assignments (✅ Works well per course)
 - mcp__canvas-lms__canvas_list_discussion_topics
 - mcp__canvas-lms__canvas_list_quizzes
 - mcp__canvas-lms__canvas_get_course_grades
 - mcp__canvas-lms__canvas_list_announcements
+- mcp__canvas-lms__canvas_get_upcoming_assignments (✅ Good for quick view)
 
 # Canvas Resource Reading (fallback):
 - ReadMcpResourceTool (for assignments://[course_id], calendar://upcoming)
