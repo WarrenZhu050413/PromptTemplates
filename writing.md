@@ -43,6 +43,7 @@ Check if $ARGUMENTS contains `|` or `PIPE` operator:
    - `FILL` → Process TODO tags (PERMANENT)
    - `FACT-CHECK` → Verify factual claims (PERMANENT)
    - `RESEARCH` → Focused topic research (PERMANENT)
+   - `SPECIFICATIONS` → Software project specification development (PERMANENT)
    - `TRACK` → Set the file to track (saves to .writing/file.txt)
    - `EXIT` → Leave the current writing mode
    - `--help` or `help` → Show complete help menu (output entire <help_system> section)
@@ -58,6 +59,7 @@ Examples:
 - `/writing EDIT AS HEMINGWAY` → Enter permanent edit mode with Hemingway style
 - `/writing APPLY -y` → Enter permanent apply mode without wrapper tags
 - `/writing QUESTION about authenticity` → Enter permanent questioning mode
+- `/writing SPECIFICATIONS` → Enter permanent specification writing mode
 - `/writing TRACK myfile.md` → Set tracking to myfile.md
 - `/writing RESEARCH topic | THINK` → Research then feed insights to thought partnership
 - `/writing QUESTION | EDIT` → Questions inform editing suggestions
@@ -100,6 +102,7 @@ All modes respect these patterns:
 - PLAN tags: Structured thinking markers
 - APPLIED tags: From APPLY mode
 - RESEARCH tags: Research markers
+- SPEC tags: Specification development markers
 </shared_logic>
 
 <piped_execution>
@@ -123,6 +126,7 @@ When pipe operator (`|` or `PIPE`) is detected:
      - For EDIT: areas identified for improvement
      - For FORMAT: structural issues found
      - For APPLY: themes identified
+     - For SPECIFICATIONS: requirements gathered and prototypes
 
 3. **Context handoff**:
    - Summarize first mode's output
@@ -144,6 +148,10 @@ When pipe operator (`|` or `PIPE`) is detected:
 - First: Ask clarifying questions about your intent
 - Then: Edit with your answers in mind
 
+`/writing QUESTION | SPECIFICATIONS`
+- First: Ask clarifying questions about your project intent
+- Then: Help develop specifications based on your answers
+
 `/writing FACT-CHECK | RESEARCH`  
 - First: Identify unverified claims
 - Then: Deep research on those specific points
@@ -151,6 +159,10 @@ When pipe operator (`|` or `PIPE`) is detected:
 `/writing THINK | APPLY`
 - First: Explore themes through dialogue
 - Then: Add skeleton prompts for identified areas
+
+`/writing SPECIFICATIONS | THINK`
+- First: Develop project specifications
+- Then: Explore implementation approaches through dialogue
 </piped_execution>
 
 <execution_modes>
@@ -353,6 +365,115 @@ Connects to your authenticity theme - genuine novelty vs recombination.
 arxiv.org/abs/2024.xxxxx"
 ```
 
+## Mode: SPECIFICATIONS - Software Project Intent Specification
+
+Purpose: Clarify project intent through focused questions and rapid prototyping to eliminate ambiguities
+
+Process:
+1. ALWAYS read target file first (non-negotiable) - understand current thinking
+2. Identify what's unclear or ambiguous
+3. Ask pointed clarifying questions
+4. Prototype solutions to test understanding
+5. Document clear intent with implementation guidance
+
+Core Focus:
+
+### What System Should Do
+- Extract clear functional intent from vague ideas
+- Identify the core capabilities needed
+- Define success in concrete, observable terms
+- Keep scope tight and achievable
+
+### Clarifying Ambiguities
+When something could be implemented multiple ways:
+- Show 2-3 quick implementation approaches
+- Ask which matches user's mental model
+- Prototype the interaction to confirm
+- Document the chosen approach clearly
+
+### Specification Format (Lightweight)
+```
+<SPEC:INTENT>
+## What This Does
+[Clear statement of purpose - 1-2 sentences]
+
+## Core Capabilities
+1. [Specific thing it can do]
+2. [Another specific capability]
+3. [Keep list under 10 items]
+
+## Key Decisions
+- [Important implementation choice: chosen approach]
+- [Another decision: why this way]
+</SPEC:INTENT>
+
+<SPEC:PROTOTYPE>
+## Quick Prototype
+[Simple code/pseudo-code showing the main idea]
+[Just enough to eliminate ambiguity]
+</SPEC:PROTOTYPE>
+```
+
+### Prototyping Approach
+Focus on clarifying intent, not building features:
+- Write minimal pseudo-code to test understanding
+- Show input → process → output flow
+- Create simple examples that reveal edge cases
+- Use prototypes to surface hidden assumptions
+
+### Key Questions to Ask
+- "What exactly should happen when...?"
+- "Is this more like X or Y?" (with examples)
+- "What's the simplest version that would be useful?"
+- "What would failure look like here?"
+- "Show me an example of this working correctly"
+
+AS modifiers:
+- MINIMAL: Absolute minimum specification
+- CONCRETE: Heavy on examples, light on abstraction
+- TECHNICAL: Include implementation hints
+- EXPLORATORY: Discover requirements through prototyping
+
+Example interaction:
+```
+/writing SPECIFICATIONS
+"Looking at your idea, I need to clarify the core intent:
+
+**What should this actually do?**
+You mentioned [feature] but this could mean:
+1. Option A: [simple interpretation with example]
+2. Option B: [different interpretation with example]
+
+Which matches your thinking? Or is it something else?
+
+**Quick test:**
+If I give it input X, what exactly comes out?
+```
+
+Example with prototyping:
+```
+/writing SPECIFICATIONS
+"Let me prototype to check I understand:
+
+```python
+# Your search tool - minimal version
+def search(query):
+    # Split into keywords
+    words = query.lower().split()
+    # Match against documents
+    results = find_matches(words, threshold=0.7)
+    # Return top 10
+    return results[:10]
+```
+
+**Is this the right mental model?**
+- Simple keyword matching?
+- Or needs semantic understanding?
+- What about partial matches?
+
+Show me what a successful search looks like."
+```
+
 ## Mode: TRACK - Set Tracking File
 
 Purpose: Configure which file to track for all writing commands
@@ -388,10 +509,11 @@ MODES:
   APPLY      Add thought prompts and skeletons
   QUESTION   Surface ideas through inquiry
   FORMAT     Reorganize without adding
-  FILL       Process TODO tags
-  FACT-CHECK Verify claims and quotes
-  RESEARCH   Investigate specific topics
-  TRACK      Set which file to track
+  FILL           Process TODO tags
+  FACT-CHECK     Verify claims and quotes
+  RESEARCH       Investigate specific topics
+  SPECIFICATIONS Clarify project intent through prototypes
+  TRACK          Set which file to track
 
 USAGE:
   /writing [mode] [arguments]  Enter permanent mode
@@ -410,6 +532,7 @@ QUICK START:
   /writing THINK              Enter permanent thought partnership
   /writing EDIT               Enter permanent editing mode
   /writing APPLY              Enter permanent prompt-adding mode
+  /writing SPECIFICATIONS     Enter permanent specification mode
   /writing RESEARCH | THINK   Research then explore findings
   EXIT                        Leave current writing mode
   /writing TRACK file.md      Set tracking file
@@ -422,7 +545,7 @@ AS MODIFIERS:
 PIPE OPERATOR:
   Chain modes with | to flow insights from one to another:
   RESEARCH | THINK - Research findings feed thought partnership
-  QUESTION | EDIT - Your answers inform editing approach
+  QUESTION | SPECIFICATIONS - Your answers inform spec development
   FACT-CHECK | RESEARCH - Disputed claims trigger deep dives
 ```
 
@@ -666,6 +789,54 @@ EXAMPLE:
      Links to your authenticity theme"
 ```
 
+For `/writing --help SPECIFICATIONS`:
+```
+📋 SPECIFICATIONS Mode - Project Intent Clarification
+
+PURPOSE:
+  Clarify what you want to build through questions and prototypes
+  Focus on eliminating ambiguity about intent and approach
+
+USAGE:
+  /writing SPECIFICATIONS                 Clarify project intent
+  /writing SPECIFICATIONS AS MINIMAL      Bare minimum spec
+  /writing SPECIFICATIONS AS CONCRETE     Example-driven spec
+  /writing SPECIFICATIONS AS TECHNICAL    Include implementation hints
+  /writing SPECIFICATIONS AS EXPLORATORY  Discover through prototyping
+
+STYLES:
+  MINIMAL      Absolute minimum specification
+  CONCRETE     Heavy on examples, light on abstraction
+  TECHNICAL    Include implementation hints
+  EXPLORATORY  Discover requirements through prototyping
+
+APPROACH:
+  • Identify what's unclear or ambiguous
+  • Ask pointed "what should happen when" questions
+  • Prototype to test understanding
+  • Document intent, not process
+  • Focus on observable behavior
+
+SPECIFICATION FORMAT:
+  • What This Does (1-2 sentences)
+  • Core Capabilities (< 10 items)
+  • Key Decisions (implementation choices)
+  • Quick Prototypes (just enough code)
+
+KEY QUESTIONS:
+  • "What exactly should happen when...?"
+  • "Is this more like X or Y?" (with examples)
+  • "What's the simplest useful version?"
+  • "Show me this working correctly"
+
+EXAMPLE:
+  /writing SPECIFICATIONS
+  → "You mentioned [feature] - this could mean:
+     1. Option A: [example]
+     2. Option B: [example]
+     Which matches your thinking?"
+```
+
 For `/writing --help TRACK`:
 ```
 📍 TRACK Mode - Set Tracking File
@@ -704,8 +875,9 @@ NOTE:
 6. Questions calibrated to draw out, not lead
 7. Research connects findings to document themes
 8. Format mode ONLY reorganizes, never rewrites
-9. Always wait for user approval before applying changes
-10. To exit writing mode, user types `EXIT` or uses `/writing [new-mode]` to switch
+9. Specifications mode clarifies intent through prototypes
+10. Always wait for user approval before applying changes
+11. To exit writing mode, user types `EXIT` or uses `/writing [new-mode]` to switch
 </important_notes>
 
 ARGUMENTS: $ARGUMENTS
