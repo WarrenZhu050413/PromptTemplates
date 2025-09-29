@@ -1,0 +1,1 @@
+/Users/wz/.claude/snippets/commands/read-snippet.md

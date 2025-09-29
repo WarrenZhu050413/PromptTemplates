@@ -1,0 +1,1 @@
+/Users/wz/.claude/snippets/commands/update-snippet.md

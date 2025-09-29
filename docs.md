@@ -1,37 +1,26 @@
-Execute the Claude Code Docs helper script at ~/.claude-code-docs/claude-docs-helper.sh
+# Claude Code Documentation Browser
 
-Usage:
+Access Claude Code documentation instantly without leaving your terminal.
 
-- /docs - List all available documentation topics
-- /docs <topic> - Read specific documentation with link to official docs
-- /docs -t - Check sync status without reading a doc
-- /docs -t <topic> - Check freshness then read documentation
-- /docs whats new - Show recent documentation changes (or "what's new")
+## Usage
+`/docs [topic] [-t|--test]`
 
-Examples of expected output:
+## Examples
+- `/docs` - View main documentation
+- `/docs hooks` - View hooks documentation
+- `/docs mcp` - View MCP documentation
+- `/docs memory` - View memory documentation
+- `/docs -t` - Test freshness and update if needed
 
-When reading a doc:
-📚 COMMUNITY MIRROR: https://github.com/ericbuess/claude-code-docs
-📖 OFFICIAL DOCS: https://docs.anthropic.com/en/docs/claude-code
+## Topics
+hooks, mcp, memory, agents, prompts, settings, slash-commands, github-actions, and more
 
-[Doc content here...]
+## Options
+- `-t`, `--test`: Check freshness and force update if needed
 
-📖 Official page: https://docs.anthropic.com/en/docs/claude-code/hooks
+## Handler
+```bash
+~/.claude-code-docs/claude-docs-helper.sh "$@"
+```
 
-When showing what's new:
-📚 Recent documentation updates:
-
-• 5 hours ago:
-📎 https://github.com/ericbuess/claude-code-docs/commit/eacd8e1
-📄 data-usage: https://docs.anthropic.com/en/docs/claude-code/data-usage
-➕ Added: Privacy safeguards
-📄 security: https://docs.anthropic.com/en/docs/claude-code/security
-✨ Data flow and dependencies section moved here
-
-📎 Full changelog: https://github.com/ericbuess/claude-code-docs/commits/main/docs
-📚 COMMUNITY MIRROR - NOT AFFILIATED WITH ANTHROPIC
-
-Every request checks for the latest documentation from GitHub (takes ~0.4s).
-The helper script handles all functionality including auto-updates.
-
-Execute: ~/.claude-code-docs/claude-docs-helper.sh "$ARGUMENTS"
+This command provides instant access to local Claude Code documentation.
