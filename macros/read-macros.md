@@ -1,0 +1,1 @@
+/Users/wz/.claude/macros/commands/read-macros.md
